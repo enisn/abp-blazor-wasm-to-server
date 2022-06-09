@@ -162,25 +162,6 @@ public class IdentityServerDataSeedContributor : IDataSeedContributor, ITransien
         }
 
 
-        // Blazor Client
-        var blazorClientId = configurationSection["MyProject_Blazor:ClientId"];
-        if (!blazorClientId.IsNullOrWhiteSpace())
-        {
-            var blazorRootUrl = configurationSection["MyProject_Blazor:RootUrl"].TrimEnd('/');
-
-            await CreateClientAsync(
-                name: blazorClientId,
-                scopes: commonScopes,
-                grantTypes: new[] { "authorization_code" },
-                secret: configurationSection["MyProject_Blazor:ClientSecret"]?.Sha256(),
-                requireClientSecret: false,
-                redirectUri: $"{blazorRootUrl}/authentication/login-callback",
-                postLogoutRedirectUri: $"{blazorRootUrl}/authentication/logout-callback",
-                corsOrigins: new[] { blazorRootUrl.RemovePostFix("/") }
-            );
-        }
-
-
 
         // Swagger Client
         var swaggerClientId = configurationSection["MyProject_Swagger:ClientId"];
